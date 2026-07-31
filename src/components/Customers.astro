@@ -1,0 +1,54 @@
+---
+const customers = [
+  { name: 'Backbase', href: 'https://webflow.com/customers/backbase' },
+  { name: 'Greenhouse', href: 'https://webflow.com/customers/greenhouse' },
+  { name: 'Typeform', href: 'https://webflow.com/customers/typeform' },
+  { name: 'Hakim Group', href: 'https://webflow.com/customers/hakim-group' },
+  { name: 'Nursa', href: 'https://webflow.com/customers/nursa' },
+];
+---
+
+<section id="customers" class="section section--alt">
+  <div class="container">
+    <h2 class="section-heading">Customer Impact</h2>
+    <p class="body-text">
+      A handful of the Enterprise customers I've partnered with directly, across design system
+      rollouts, adoption strategy, and renewal planning:
+    </p>
+    <ul class="customer-list">
+      {customers.map((customer) => (
+        <li>
+          <a href={customer.href} target="_blank" rel="noopener noreferrer">{customer.name}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .body-text {
+    color: var(--color-text-muted);
+    max-width: 42rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .customer-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .customer-list a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .customer-list a:hover {
+    color: var(--color-accent);
+  }
+</style>

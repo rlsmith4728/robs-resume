@@ -1,0 +1,143 @@
+---
+const companies = [
+  {
+    name: 'Webflow',
+    logo: '/images/webflow-logo.svg',
+    logoDark: '/images/webflow-logo-white.png',
+    range: 'Sep 2021 – Present',
+    roles: [
+      {
+        title: 'Lead Customer Success Manager, EMEA',
+        meta: 'Oct 2025 – Present · Rotterdam, NL (Remote)',
+        description:
+          "These days I'm building Webflow's Customer Success motion across Europe, the Middle East, and Africa pretty much from the ground up — defining what it looks like to help customers hit their goals and get real return on their investment in Webflow, and putting the commercial strategy and systems in place to make that repeatable across the region. That's meant running roadshows across Europe, pulling together an event for our Enterprise customer community, and growing the team fast — four new hires onboarded in six months. I partner closely with our Head of EMEA to build healthy pipeline and hit revenue targets, and I still hold onto a focused book of highly strategic accounts of my own, which came in at 114% NRR in Q1.",
+      },
+      {
+        title: 'Senior Customer Success Manager',
+        meta: 'Feb 2023 – Oct 2025 · Philadelphia, PA (Remote)',
+        description:
+          "For about two and a half years I owned a book of strategic Enterprise accounts — roughly $4M in ARR, mostly across EMEA — and helped them get more value out of Webflow: rolling out scalable design systems, getting teams organized the right way, and driving adoption of the features that actually move the needle for them. It paid off — 109% net revenue retention in both FY24 and FY25, and 117% in the first half of FY26, which made me the top performer that half. I also picked up a mentoring role along the way, coaching our Scaled CSMs on strategy that helped grow multi-year deals and expansion revenue in that segment, and became a go-to thought partner for Customer Success leadership and teams across Product, Engineering, Marketing, and Partnerships. I spoke at Webflow Conf London in 2024, too.",
+      },
+      {
+        title: 'Customer Success Manager',
+        meta: 'Sep 2021 – Feb 2023 · Denver, CO',
+        description:
+          'This is where I got my start at Webflow, working directly with Enterprise customers and building the account-management instincts that shaped everything that came after.',
+      },
+    ],
+  },
+  {
+    name: 'edX',
+    logo: '/images/edx-logo.svg',
+    logoDark: '/images/edx-logo.svg',
+    range: 'May 2018 – Aug 2021',
+    roles: [
+      {
+        title: 'Manager, Customer Success',
+        meta: 'Aug 2020 – Aug 2021 · Denver, CO',
+        description:
+          'I stepped into management here, leading a small team of Customer Success Associates and owning onboarding and coaching for new hires so they could grow quickly into the role.',
+      },
+      {
+        title: 'Senior Customer Success Associate',
+        meta: 'Aug 2019 – Aug 2020 · Cambridge, MA',
+        description:
+          "I worked directly with Enterprise customers on how to actually put edX's platform and courses to work for their learning and enablement goals, including advising on the technical side of integrating edX with their own learning systems. I retained edX's single most strategic account, worth over $1M in ARR, and partnered with sales to close the largest net-new deal in company history — a multi-year contract worth $500K in ARR and $1.5M in total contract value.",
+      },
+      {
+        title: 'Customer Success Associate',
+        meta: 'May 2018 – Aug 2019 · Cambridge, MA',
+        description:
+          'This was my first role in Customer Success, cutting my teeth on the fundamentals of managing enterprise relationships.',
+      },
+    ],
+  },
+];
+---
+
+<section id="experience" class="section section--alt">
+  <div class="container">
+    <h2 class="section-heading">Experience</h2>
+    {companies.map((company) => (
+      <div class="company">
+        <div class="company-header">
+          {company.logoDark !== company.logo ? (
+            <>
+              <img class="logo swap-light" src={company.logo} alt={company.name} />
+              <img class="logo swap-dark" src={company.logoDark} alt={company.name} />
+            </>
+          ) : (
+            <img class="logo" src={company.logo} alt={company.name} />
+          )}
+          <span class="range">{company.range}</span>
+        </div>
+        {company.roles.map((role) => (
+          <div class="role">
+            <h3>{role.title}</h3>
+            <p class="meta">{role.meta}</p>
+            <p class="description">{role.description}</p>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .company {
+    margin-bottom: 3rem;
+  }
+
+  .company:last-child {
+    margin-bottom: 0;
+  }
+
+  .company-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .logo {
+    height: 1.5rem;
+    width: auto;
+  }
+
+  .swap-dark { display: none; }
+  :global(html.dark) .swap-light { display: none; }
+  :global(html.dark) .swap-dark { display: inline; }
+
+  .range {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .role {
+    margin-bottom: 1.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .role:last-child {
+    margin-bottom: 0;
+  }
+
+  .role h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .meta {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin: 0.15rem 0 0.75rem;
+  }
+
+  .description {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

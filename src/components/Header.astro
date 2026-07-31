@@ -1,0 +1,66 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const links = [
+  { href: '#experience', label: 'Experience' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#customers', label: 'Customers' },
+  { href: '#education', label: 'Education' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header>
+  <div class="container nav-inner">
+    <a href="#hero" class="logo">Rob Smith</a>
+    <nav>
+      {links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .logo {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  nav a:hover {
+    color: var(--color-text);
+  }
+</style>
