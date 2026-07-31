@@ -1,28 +1,71 @@
 ---
+import ExpansionChart from './ExpansionChart.astro';
+
 const companies = [
   {
     name: 'Webflow',
     logo: '/images/webflow-logo.svg',
     logoDark: '/images/webflow-logo-white.png',
     range: 'Sep 2021 – Present',
-    roles: [
+    events: [
       {
-        title: 'Lead Customer Success Manager, EMEA',
-        meta: 'Oct 2025 – Present · Rotterdam, NL (Remote)',
-        description:
-          "These days I'm building Webflow's Customer Success motion across Europe, the Middle East, and Africa pretty much from the ground up — defining what it looks like to help customers hit their goals and get real return on their investment in Webflow, and putting the commercial strategy and systems in place to make that repeatable across the region. That's meant running roadshows across Europe, pulling together an event for our Enterprise customer community, and growing the team fast — four new hires onboarded in six months. I partner closely with our Head of EMEA to build healthy pipeline and hit revenue targets, and I still hold onto a focused book of highly strategic accounts of my own, which came in at 114% NRR in Q1.",
-      },
-      {
-        title: 'Senior Customer Success Manager',
-        meta: 'Feb 2023 – Oct 2025 · Philadelphia, PA (Remote)',
-        description:
-          "For about two and a half years I owned a book of strategic Enterprise accounts — roughly $4M in ARR, mostly across EMEA — and helped them get more value out of Webflow: rolling out scalable design systems, getting teams organized the right way, and driving adoption of the features that actually move the needle for them. It paid off — 109% net revenue retention in both FY24 and FY25, and 117% in the first half of FY26, which made me the top performer that half. I also picked up a mentoring role along the way, coaching our Scaled CSMs on strategy that helped grow multi-year deals and expansion revenue in that segment, and became a go-to thought partner for Customer Success leadership and teams across Product, Engineering, Marketing, and Partnerships. I spoke at Webflow Conf London in 2024, too.",
-      },
-      {
+        type: 'role',
+        date: 'Sep 2021',
         title: 'Customer Success Manager',
-        meta: 'Sep 2021 – Feb 2023 · Denver, CO',
+        meta: 'Denver, CO',
         description:
-          'This is where I got my start at Webflow, working directly with Enterprise customers and building the account-management instincts that shaped everything that came after.',
+          "Joined as a founding member of Webflow's Enterprise Customer Success team, working directly with our first wave of Enterprise customers.",
+      },
+      {
+        type: 'milestone',
+        date: 'Jul 2022',
+        tag: 'Customer story',
+        title: "Launched Greenhouse's first projects on Webflow",
+        description:
+          "Managed the launch of HR-tech platform Greenhouse's first projects on Webflow, laying the foundation for the growth that followed. That foundation carried into one of Webflow's flagship customer stories — their marketing team fully moved off a developer-dependent CMS, cutting $350K in annual agency costs and lifting conversion rates by up to 40%.",
+        quote: {
+          text: "Before Webflow, the website felt a little bit like a straitjacket... now it's more about: are we doing something that's going to have business impact?",
+          author: 'Carrin Van Vuuren, CMO, Greenhouse',
+        },
+        link: { href: 'https://webflow.com/customers/greenhouse', label: 'Read the case study' },
+      },
+      {
+        type: 'role',
+        date: 'Feb 2023',
+        title: 'Senior Customer Success Manager',
+        meta: 'Philadelphia, PA (Remote)',
+        description:
+          'Took ownership of a book of strategic Enterprise accounts — roughly $4M in ARR, mostly across EMEA — posting 109% net revenue retention in both FY24 and FY25.',
+      },
+      {
+        type: 'milestone',
+        date: 'Sep 2023',
+        tag: 'First of its kind',
+        title: "Sold Webflow's first-ever Localization deal",
+        description:
+          "Closed the company's first Localization sale, to Moloco — helping define how Webflow would go on to sell one of its now-core Enterprise products.",
+      },
+      {
+        type: 'milestone',
+        date: 'Oct 2024',
+        tag: 'Speaker',
+        title: 'Spoke at Webflow Conf London',
+        description:
+          '"Turning your website into a revenue-generating engine" — shared the strategies my customers use to speed up time-to-market, cut maintenance costs, and optimize performance.',
+        link: {
+          href: 'https://webflow.com/webflowconf/2024/session/turning-your-website-into-a-revenue-generating-engine-london',
+          label: 'View the session',
+        },
+      },
+      {
+        type: 'role',
+        date: 'Oct 2025',
+        title: 'Lead Customer Success Manager, EMEA',
+        meta: 'Rotterdam, NL (Remote)',
+        description:
+          "Now building Webflow's Customer Success motion across EMEA from the ground up — hiring and leading the regional team without ever holding a formal manager title, all while posting the best expansion track record of any CSM at Webflow.",
+        stat: 'Record for the most expansion dollars of any CSM at Webflow · at or above goal in 6 of 7 measured quarters',
+        chart: true,
       },
     ],
   },
@@ -31,24 +74,29 @@ const companies = [
     logo: '/images/edx-logo.svg',
     logoDark: '/images/edx-logo.svg',
     range: 'May 2018 – Aug 2021',
-    roles: [
+    events: [
       {
-        title: 'Manager, Customer Success',
-        meta: 'Aug 2020 – Aug 2021 · Denver, CO',
-        description:
-          'I stepped into management here, leading a small team of Customer Success Associates and owning onboarding and coaching for new hires so they could grow quickly into the role.',
-      },
-      {
-        title: 'Senior Customer Success Associate',
-        meta: 'Aug 2019 – Aug 2020 · Cambridge, MA',
-        description:
-          "I worked directly with Enterprise customers on how to actually put edX's platform and courses to work for their learning and enablement goals, including advising on the technical side of integrating edX with their own learning systems. I retained edX's single most strategic account, worth over $1M in ARR, and partnered with sales to close the largest net-new deal in company history — a multi-year contract worth $500K in ARR and $1.5M in total contract value.",
-      },
-      {
+        type: 'role',
+        date: 'May 2018',
         title: 'Customer Success Associate',
-        meta: 'May 2018 – Aug 2019 · Cambridge, MA',
+        meta: 'Cambridge, MA',
+        description: 'First role in Customer Success — learned the fundamentals of managing enterprise relationships from the ground up.',
+      },
+      {
+        type: 'role',
+        date: 'Aug 2019',
+        title: 'Senior Customer Success Associate',
+        meta: 'Cambridge, MA',
         description:
-          'This was my first role in Customer Success, cutting my teeth on the fundamentals of managing enterprise relationships.',
+          "Retained edX's single most strategic account, worth over $1M in ARR, and partnered with sales to close the largest net-new deal in company history — $500K in ARR, $1.5M in total contract value.",
+      },
+      {
+        type: 'role',
+        date: 'Aug 2020',
+        title: 'Manager, Customer Success',
+        meta: 'Denver, CO',
+        description:
+          'Promoted into management, leading a small team of Customer Success Associates and building the onboarding process that ramped new hires quickly.',
       },
     ],
   },
@@ -71,13 +119,38 @@ const companies = [
           )}
           <span class="range">{company.range}</span>
         </div>
-        {company.roles.map((role) => (
-          <div class="role">
-            <h3>{role.title}</h3>
-            <p class="meta">{role.meta}</p>
-            <p class="description">{role.description}</p>
-          </div>
-        ))}
+        <div class="timeline">
+          {company.events.map((event) => (
+            event.type === 'milestone' ? (
+              <div class="event milestone">
+                <span class="date">{event.date}</span>
+                <span class="tag">{event.tag}</span>
+                <h3>{event.title}</h3>
+                <p class="description">{event.description}</p>
+                {event.quote && (
+                  <blockquote>
+                    <p>“{event.quote.text}”</p>
+                    <cite>— {event.quote.author}</cite>
+                  </blockquote>
+                )}
+                {event.link && (
+                  <a class="event-link" href={event.link.href} target="_blank" rel="noopener noreferrer">
+                    {event.link.label} ↗
+                  </a>
+                )}
+              </div>
+            ) : (
+              <div class="event role">
+                <span class="date">{event.date}</span>
+                <h3>{event.title}</h3>
+                <p class="meta">{event.meta}</p>
+                <p class="description">{event.description}</p>
+                {event.stat && <p class="stat">🏆 {event.stat}</p>}
+                {event.chart && <ExpansionChart />}
+              </div>
+            )
+          ))}
+        </div>
       </div>
     ))}
   </div>
@@ -97,7 +170,7 @@ const companies = [
     align-items: center;
     gap: 0.75rem;
     padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     border-bottom: 1px solid var(--color-border);
   }
 
@@ -115,29 +188,140 @@ const companies = [
     font-size: 0.875rem;
   }
 
-  .role {
-    margin-bottom: 1.75rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--color-border);
+  .timeline {
+    position: relative;
+    padding-left: 1.5rem;
   }
 
-  .role:last-child {
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.28rem;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    width: 2px;
+    background: var(--color-border);
+  }
+
+  .event {
+    position: relative;
+    margin-bottom: 1.75rem;
+  }
+
+  .event:last-child {
     margin-bottom: 0;
   }
 
-  .role h3 {
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0.35rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--color-border);
+  }
+
+  .event.milestone::before {
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+
+  .date {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .event h3 {
     font-size: 1.05rem;
     font-weight: 700;
+    margin-bottom: 0.15rem;
   }
 
   .meta {
     color: var(--color-text-muted);
     font-size: 0.875rem;
-    margin: 0.15rem 0 0.75rem;
+    margin: 0 0 0.5rem;
   }
 
   .description {
     color: var(--color-text-muted);
     margin: 0;
+  }
+
+  .role .description {
+    margin-top: 0.15rem;
+  }
+
+  .stat {
+    margin: 0.75rem 0 0;
+    padding: 0.6rem 0.85rem;
+    background: var(--color-accent-soft);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .milestone {
+    padding: 1rem 1.1rem;
+    background: var(--color-accent-soft);
+    border-radius: 8px;
+  }
+
+  .milestone .date {
+    display: inline;
+    margin-right: 0.6rem;
+  }
+
+  .tag {
+    display: inline-block;
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .milestone h3 {
+    margin-top: 0.35rem;
+  }
+
+  blockquote {
+    margin: 0.75rem 0 0;
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--color-accent);
+  }
+
+  blockquote p {
+    margin: 0;
+    font-style: italic;
+    color: var(--color-text);
+    font-size: 0.9rem;
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-style: normal;
+  }
+
+  .event-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .event-link:hover {
+    text-decoration: underline;
   }
 </style>

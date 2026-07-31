@@ -8,7 +8,9 @@
   --color-border: #e5e7eb;
   --color-accent: #2563eb;
   --color-accent-text: #ffffff;
+  --color-accent-soft: rgba(37, 99, 235, 0.07);
   --color-greeting: #16a34a;
+  --color-chart-bar: #cbd5e1;
 }
 
 html.dark {
@@ -21,7 +23,9 @@ html.dark {
   --color-border: rgba(255, 255, 255, 0.1);
   --color-accent: #3b82f6;
   --color-accent-text: #ffffff;
+  --color-accent-soft: rgba(59, 130, 246, 0.12);
   --color-greeting: #4ade80;
+  --color-chart-bar: #374151;
 }
 
 * {

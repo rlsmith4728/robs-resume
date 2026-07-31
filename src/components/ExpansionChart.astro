@@ -1,0 +1,105 @@
+---
+const quarters = [
+  { label: "Q1 '25", value: 121, pct: null, record: false },
+  { label: "Q2 '25", value: 375, pct: 141, record: false },
+  { label: "Q1 '26", value: 65, pct: 116, record: false },
+  { label: "Q2 '26", value: 122, pct: 115, record: false },
+  { label: "Q3 '26", value: 200, pct: 105, record: false },
+  { label: "Q4 '26", value: 231, pct: 95, record: true },
+];
+
+const barWidth = 48;
+const gap = 22;
+const maxBarHeight = 66;
+const baseline = 108;
+const maxValue = Math.max(...quarters.map((q) => q.value));
+
+const totalWidth = quarters.length * barWidth + (quarters.length - 1) * gap;
+const viewWidth = totalWidth + 24;
+const startX = (viewWidth - totalWidth) / 2;
+
+function roundedTopBar(x, width, height, radius) {
+  const yTop = baseline - height;
+  const yBottom = baseline;
+  return `M${x},${yBottom} L${x},${yTop + radius} Q${x},${yTop} ${x + radius},${yTop} L${x + width - radius},${yTop} Q${x + width},${yTop} ${x + width},${yTop + radius} L${x + width},${yBottom} Z`;
+}
+
+const bars = quarters.map((q, i) => {
+  const x = startX + i * (barWidth + gap);
+  const height = (q.value / maxValue) * maxBarHeight;
+  const yTop = baseline - height;
+  return { ...q, x, height, yTop, path: roundedTopBar(x, barWidth, height, 4) };
+});
+---
+
+<figure class="expansion-chart">
+  <svg viewBox={`0 0 ${viewWidth} 132`} role="img" aria-label="Quarterly expansion revenue, Q1 FY25 through Q4 FY26: $121K, $375K, $65K, $122K, $200K, and $231K, the highest of any CSM that quarter.">
+    <line x1={startX} y1={baseline} x2={startX + totalWidth} y2={baseline} class="axis" />
+    {bars.map((bar) => (
+      <g>
+        <path d={bar.path} class={bar.record ? 'bar bar--record' : 'bar'} />
+        <text x={bar.x + barWidth / 2} y={bar.yTop - (bar.pct ? 17 : 8)} class="value-label">
+          {bar.record ? '★ ' : ''}${bar.value}K
+        </text>
+        {bar.pct && (
+          <text x={bar.x + barWidth / 2} y={bar.yTop - 5} class="pct-label">{bar.pct}%</text>
+        )}
+        <text x={bar.x + barWidth / 2} y={baseline + 16} class="quarter-label">{bar.label}</text>
+      </g>
+    ))}
+  </svg>
+  <figcaption>
+    % = of quarterly goal · ★ Q4 was the highest expansion total of any CSM at Webflow that quarter
+  </figcaption>
+</figure>
+
+<style>
+  .expansion-chart {
+    margin: 0.75rem 0 0;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 26rem;
+  }
+
+  .axis {
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+
+  .bar {
+    fill: var(--color-chart-bar);
+  }
+
+  .bar--record {
+    fill: var(--color-accent);
+  }
+
+  .value-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    fill: var(--color-text);
+    text-anchor: middle;
+  }
+
+  .pct-label {
+    font-size: 8.5px;
+    fill: var(--color-text-muted);
+    text-anchor: middle;
+  }
+
+  .quarter-label {
+    font-size: 9px;
+    fill: var(--color-text-muted);
+    text-anchor: middle;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+</style>
