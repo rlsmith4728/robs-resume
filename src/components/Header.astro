@@ -13,14 +13,44 @@ const links = [
 <header>
   <div class="container nav-inner">
     <a href="#hero" class="logo">Rob Smith</a>
-    <nav>
+    <nav id="primaryNav">
       {links.map((link) => (
         <a href={link.href}>{link.label}</a>
       ))}
     </nav>
-    <ThemeToggle />
+    <div class="right-group">
+      <button id="navToggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primaryNav">
+        <svg class="icon-open" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg class="icon-close" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="5" y1="5" x2="19" y2="19" />
+          <line x1="19" y1="5" x2="5" y2="19" />
+        </svg>
+      </button>
+      <ThemeToggle />
+    </div>
   </div>
 </header>
+
+<script is:inline>
+  const navToggle = document.getElementById('navToggle');
+  const primaryNav = document.getElementById('primaryNav');
+
+  navToggle?.addEventListener('click', () => {
+    const isOpen = primaryNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  primaryNav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      primaryNav.classList.remove('open');
+      navToggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 
 <style>
   header {
@@ -62,5 +92,66 @@ const links = [
 
   nav a:hover {
     color: var(--color-text);
+  }
+
+  .right-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .icon-close {
+    display: none;
+  }
+
+  .nav-toggle[aria-expanded="true"] .icon-open {
+    display: none;
+  }
+
+  .nav-toggle[aria-expanded="true"] .icon-close {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      background-color: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 1.5rem 1rem;
+    }
+
+    nav.open {
+      display: flex;
+    }
+
+    nav a {
+      width: 100%;
+      padding: 0.6rem 0;
+    }
   }
 </style>
