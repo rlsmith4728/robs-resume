@@ -95,7 +95,7 @@ const chapters = [
 ];
 
 const teamChapter = chapters.find((c) => c.roster);
-const rosterInitial = teamChapter?.roster.map(({ src, alt }) => ({ src, alt })) ?? [];
+const rosterInitial = teamChapter?.roster.map(({ src, alt, objectPosition }) => ({ src, alt, objectPosition })) ?? [];
 const rosterExtras = teamChapter?.rosterExtras ?? [];
 
 const evidence = [
@@ -131,13 +131,15 @@ const evidence = [
           {chapter.roster ? (
             <div class="roster" data-roster>
               {chapter.roster.map((p, idx) => (
-                <img
-                  class="roster-tile"
-                  src={p.src}
-                  alt={p.alt}
-                  data-roster-tile={idx}
-                  style={p.objectPosition ? `object-position: ${p.objectPosition};` : undefined}
-                />
+                <div class="roster-tile roster-tile--photo" data-roster-tile={idx}>
+                  <img
+                    class="roster-layer roster-layer--active"
+                    src={p.src}
+                    alt={p.alt}
+                    style={p.objectPosition ? `object-position: ${p.objectPosition};` : undefined}
+                  />
+                  <img class="roster-layer" alt="" />
+                </div>
               ))}
               {chapter.joinSlot && (
                 <button
@@ -229,24 +231,30 @@ const evidence = [
 
 <script define:vars={{ initial: rosterInitial, extras: rosterExtras }}>
   const rosterEl = document.querySelector('[data-roster]');
-  const tiles = rosterEl ? [...rosterEl.querySelectorAll('[data-roster-tile]')] : [];
+  const wrappers = rosterEl ? [...rosterEl.querySelectorAll('[data-roster-tile]')] : [];
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (rosterEl && tiles.length && extras.length && !prefersReducedMotion) {
+  if (rosterEl && wrappers.length && extras.length && !prefersReducedMotion) {
     const waiting = extras.slice().sort(() => Math.random() - 0.5);
     const displayed = initial.slice();
-
-    extras.forEach((person) => {
-      const preload = new Image();
-      preload.src = person.src;
-    });
-
     const busy = new Set();
     let lastTileIndex = -1;
 
+    function preload(src) {
+      const img = new Image();
+      img.src = src;
+      if (img.decode) return img.decode().catch(() => {});
+      return new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }
+
+    extras.forEach((person) => preload(person.src));
+
     function swapRandomTile() {
       if (!waiting.length) return;
-      const available = tiles.map((_, i) => i).filter((i) => !busy.has(i));
+      const available = wrappers.map((_, i) => i).filter((i) => !busy.has(i));
       if (!available.length) return;
 
       const candidates = available.length > 1 ? available.filter((i) => i !== lastTileIndex) : available;
@@ -254,19 +262,31 @@ const evidence = [
       lastTileIndex = tileIndex;
       busy.add(tileIndex);
 
-      const tile = tiles[tileIndex];
+      const wrapper = wrappers[tileIndex];
+      const [layerA, layerB] = wrapper.querySelectorAll('.roster-layer');
+      const activeLayer = layerA.classList.contains('roster-layer--active') ? layerA : layerB;
+      const nextLayer = activeLayer === layerA ? layerB : layerA;
+
       const incoming = waiting.shift();
       const outgoing = displayed[tileIndex];
       waiting.push(outgoing);
       displayed[tileIndex] = incoming;
 
-      tile.classList.add('roster-tile--fading');
-      window.setTimeout(() => {
-        tile.src = incoming.src;
-        tile.alt = incoming.alt;
-        tile.classList.remove('roster-tile--fading');
-        busy.delete(tileIndex);
-      }, 750);
+      // Only start the cross-fade once the incoming photo is fully decoded,
+      // so the swap never has to wait on the network or decoder mid-transition.
+      preload(incoming.src).then(() => {
+        nextLayer.src = incoming.src;
+        nextLayer.alt = incoming.alt;
+        nextLayer.style.objectPosition = incoming.objectPosition || '';
+
+        activeLayer.classList.remove('roster-layer--active');
+        nextLayer.classList.add('roster-layer--active');
+
+        window.setTimeout(() => {
+          activeLayer.alt = '';
+          busy.delete(tileIndex);
+        }, 750);
+      });
     }
 
     window.setInterval(swapRandomTile, 4000);
@@ -437,15 +457,28 @@ const evidence = [
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    object-fit: cover;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
     display: block;
-    opacity: 1;
+  }
+
+  .roster-tile--photo {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .roster-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    display: block;
     transition: opacity 0.75s ease;
   }
 
-  .roster-tile--fading {
-    opacity: 0;
+  .roster-layer--active {
+    opacity: 1;
   }
 
   .roster-tile--join {
