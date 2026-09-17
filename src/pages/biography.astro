@@ -290,6 +290,9 @@ const evidence = [
     }
 
     window.setInterval(swapRandomTile, 4000);
+    window.setTimeout(() => {
+      window.setInterval(swapRandomTile, 4000);
+    }, 2000);
   }
 </script>
 
