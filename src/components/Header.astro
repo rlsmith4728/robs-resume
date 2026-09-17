@@ -1,21 +1,37 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 
-const links = [
-  { href: '#experience', label: 'Experience' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#customers', label: 'Customers' },
-  { href: '#education', label: 'Education' },
-  { href: '#contact', label: 'Contact' },
+const sectionLinks = [
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#skills', label: 'Skills' },
+  { href: '/#customers', label: 'Customers' },
+  { href: '/#education', label: 'Education' },
+  { href: '/#contact', label: 'Contact' },
 ];
+
+const pageLinks = [
+  { href: '/biography', label: 'Biography' },
+];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <header>
   <div class="container nav-inner">
-    <a href="#hero" class="logo">Rob Smith</a>
+    <a href="/" class="logo">Rob Smith</a>
     <nav id="primaryNav">
-      {links.map((link) => (
-        <a href={link.href}>{link.label}</a>
+      {sectionLinks.map((link) => (
+        <a href={link.href} class="nav-link nav-link--section">{link.label}</a>
+      ))}
+      <span class="nav-divider" aria-hidden="true"></span>
+      {pageLinks.map((link) => (
+        <a
+          href={link.href}
+          class="nav-link nav-link--page"
+          aria-current={currentPath === link.href ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
       ))}
     </nav>
     <div class="right-group">
@@ -84,14 +100,45 @@ const links = [
     justify-content: center;
   }
 
-  nav a {
+  nav {
+    align-items: center;
+  }
+
+  .nav-link--section {
     text-decoration: none;
     color: var(--color-text-muted);
     font-size: 0.95rem;
   }
 
-  nav a:hover {
+  .nav-link--section:hover {
     color: var(--color-text);
+  }
+
+  .nav-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--color-border);
+  }
+
+  .nav-link--page {
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .nav-link--page:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+  }
+
+  .nav-link--page[aria-current='page'] {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   .right-group {
@@ -152,6 +199,17 @@ const links = [
     nav a {
       width: 100%;
       padding: 0.6rem 0;
+    }
+
+    .nav-link--page {
+      width: fit-content;
+    }
+
+    .nav-divider {
+      width: 100%;
+      height: 1px;
+      align-self: auto;
+      margin: 0.35rem 0;
     }
   }
 </style>

@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Rob Smith — Biography">
+  <Header />
+  <section class="section">
+    <div class="container">
+      <h1 class="page-heading">Biography</h1>
+      <p class="body-text">Content coming soon.</p>
+    </div>
+  </section>
+  <Footer />
+</Layout>
+
+<style>
+  .page-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 2rem 0 1.5rem;
+  }
+
+  .body-text {
+    color: var(--color-text-muted);
+    max-width: 42rem;
+  }
+</style>
