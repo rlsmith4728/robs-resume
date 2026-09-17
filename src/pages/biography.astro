@@ -176,9 +176,16 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
       preload.src = person.src;
     });
 
+    const busy = new Set();
+
     function swapRandomTile() {
       if (!waiting.length) return;
-      const tileIndex = Math.floor(Math.random() * tiles.length);
+      const available = tiles.map((_, i) => i).filter((i) => !busy.has(i));
+      if (!available.length) return;
+
+      const tileIndex = available[Math.floor(Math.random() * available.length)];
+      busy.add(tileIndex);
+
       const tile = tiles[tileIndex];
       const incoming = waiting.shift();
       const outgoing = displayed[tileIndex];
@@ -190,6 +197,7 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
         tile.src = incoming.src;
         tile.alt = incoming.alt;
         tile.classList.remove('roster-tile--fading');
+        busy.delete(tileIndex);
       }, 750);
     }
 
