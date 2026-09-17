@@ -171,6 +171,11 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     const waiting = extras.slice().sort(() => Math.random() - 0.5);
     const displayed = initial.slice();
 
+    extras.forEach((person) => {
+      const preload = new Image();
+      preload.src = person.src;
+    });
+
     function swapRandomTile() {
       if (!waiting.length) return;
       const tileIndex = Math.floor(Math.random() * tiles.length);
