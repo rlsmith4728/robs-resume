@@ -4,12 +4,14 @@
   --color-footer-bg: #111827;
   --color-footer-text: #f3f4f6;
   --color-text: #111827;
-  --color-text-muted: #6b7280;
+  --color-text-muted: #4b5563;
   --color-border: #e5e7eb;
   --color-accent: #2563eb;
+  --color-accent-solid: #2563eb;
   --color-accent-text: #ffffff;
   --color-accent-soft: rgba(37, 99, 235, 0.07);
-  --color-greeting: #16a34a;
+  --color-accent-on-soft: #1d4ed8;
+  --color-greeting: #15803d;
   --color-chart-bar: #cbd5e1;
 }
 
@@ -24,6 +26,7 @@ html.dark {
   --color-accent: #3b82f6;
   --color-accent-text: #ffffff;
   --color-accent-soft: rgba(59, 130, 246, 0.12);
+  --color-accent-on-soft: #93c5fd;
   --color-greeting: #4ade80;
   --color-chart-bar: #374151;
 }
@@ -85,7 +88,7 @@ a {
 
 .button {
   display: inline-block;
-  background-color: var(--color-accent);
+  background-color: var(--color-accent-solid);
   color: var(--color-accent-text);
   font-weight: 600;
   padding: 0.75rem 1.5rem;

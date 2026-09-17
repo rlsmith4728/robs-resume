@@ -124,7 +124,7 @@ const currentPath = Astro.url.pathname;
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--color-accent);
+    color: var(--color-accent-on-soft);
     background: var(--color-accent-soft);
     padding: 0.35rem 0.85rem;
     border-radius: 999px;
@@ -132,12 +132,12 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-link--page:hover {
-    background: var(--color-accent);
+    background: var(--color-accent-solid);
     color: var(--color-accent-text);
   }
 
   .nav-link--page[aria-current='page'] {
-    background: var(--color-accent);
+    background: var(--color-accent-solid);
     color: var(--color-accent-text);
   }
 
