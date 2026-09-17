@@ -10,35 +10,57 @@ const chapters = [
   {
     eyebrow: 'Origins',
     title: 'Where it started',
-    note: 'Tulsa, Oklahoma.',
+    note: [
+      'Tulsa, Oklahoma',
+      'Born and raised here',
+      'It still feels easy, if not fully comfortable',
+      'A place where I sometimes felt challenged, but never grew',
+    ],
     image: '/images/tulsa-route66-gateway.png',
     imageAlt: 'The Route 66 Tulsa gateway arch sign against a blue sky',
   },
   {
     eyebrow: 'Somewhere that changed me',
     title: 'A place that changed me',
-    note: 'Buenos Aires, Argentina.',
+    note: [
+      'Buenos Aires, Argentina',
+      'A completely brand new experience',
+      'Challenged a lot of my assumptions',
+      'This is where I really grew',
+    ],
     image: '/images/buenos-aires-obelisco-sunset.jpg',
     imageAlt: 'The Obelisco de Buenos Aires at sunset, framed by the buildings of Avenida 9 de Julio',
   },
   {
     eyebrow: 'What drives me',
     title: 'Top priorities',
-    note: 'Building the best possible life for my wife, Julia, and the family we’ve chosen — mostly our dogs.',
+    note: [
+      'Julia and our family',
+      'Everything is in support of the life we want to build',
+      'Nothing has improved my life more than when she entered it',
+    ],
     image: '/images/julia-and-chance.jpg',
     imageAlt: 'Julia smiling with our dog, Chance',
   },
   {
     eyebrow: 'Someone who shaped me',
     title: 'Matt Drayer',
-    note: 'Placeholder — one line on what he taught me.',
+    note: [
+      'CTO at Operix',
+      'My first technical mentor',
+      'Believed in me and pushed me to do more',
+    ],
     image: '/images/matt-drayer.png',
     imageAlt: 'Matt Drayer',
   },
   {
     eyebrow: 'The leap',
     title: 'Joining Webflow',
-    note: 'Placeholder — the risk or change I took.',
+    note: [
+      'I caught lightning in a bottle',
+      'I love that things are always changing and the work stays interesting',
+      'Webflow has challenged me to learn and grow',
+    ],
     image: '/images/speaking-at-wfc24.jpg',
     imageAlt: 'Rob speaking on stage at Webflow Conf',
   },
@@ -89,7 +111,7 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     <div class="hero-overlay">
       <div class="hero-content">
         <h1 class="page-heading">Biography</h1>
-        <p class="intro">Six chapters, sketched out — photos and captions still to come.</p>
+        <p class="intro">Some history and context about who I am and what drives me.</p>
       </div>
     </div>
   </section>
@@ -130,7 +152,13 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
         <div class="chapter-text">
           <span class="chapter-eyebrow">{chapter.eyebrow}</span>
           <h2 class="chapter-title">{chapter.title}</h2>
-          <p class="chapter-note">{chapter.note}</p>
+          {Array.isArray(chapter.note) ? (
+            <div class="chapter-note-lines">
+              {chapter.note.map((line) => <p class="chapter-note">{line}</p>)}
+            </div>
+          ) : (
+            <p class="chapter-note">{chapter.note}</p>
+          )}
         </div>
       </div>
     ))}
@@ -177,13 +205,16 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     });
 
     const busy = new Set();
+    let lastTileIndex = -1;
 
     function swapRandomTile() {
       if (!waiting.length) return;
       const available = tiles.map((_, i) => i).filter((i) => !busy.has(i));
       if (!available.length) return;
 
-      const tileIndex = available[Math.floor(Math.random() * available.length)];
+      const candidates = available.length > 1 ? available.filter((i) => i !== lastTileIndex) : available;
+      const tileIndex = candidates[Math.floor(Math.random() * candidates.length)];
+      lastTileIndex = tileIndex;
       busy.add(tileIndex);
 
       const tile = tiles[tileIndex];
@@ -423,6 +454,14 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     color: var(--color-text-muted);
     font-style: italic;
     margin: 0;
+  }
+
+  .chapter-note-lines .chapter-note {
+    margin-bottom: 0.5rem;
+  }
+
+  .chapter-note-lines .chapter-note:last-child {
+    margin-bottom: 0;
   }
 
   @media (max-width: 700px) {
