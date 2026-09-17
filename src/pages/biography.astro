@@ -97,6 +97,14 @@ const chapters = [
 const teamChapter = chapters.find((c) => c.roster);
 const rosterInitial = teamChapter?.roster.map(({ src, alt }) => ({ src, alt })) ?? [];
 const rosterExtras = teamChapter?.rosterExtras ?? [];
+
+const evidence = [
+  { src: '/images/sa-evidence/evidence-1.png', alt: 'Slack message from Kelsey Quade asking if Rob is her SA' },
+  { src: '/images/sa-evidence/evidence-2.png', alt: 'Slack message from Wadood Hussaini crediting Rob as basically a 5th TA' },
+  { src: '/images/sa-evidence/evidence-3.png', alt: 'Slack message from Alysha Asano asking to use Rob as an interim SA' },
+  { src: '/images/sa-evidence/evidence-4.png', alt: 'Slack thread proposing Rob work with a customer like a TA' },
+  { src: '/images/sa-evidence/evidence-5.png', alt: 'Slack thread discussing an SA for an account Rob is engaged with' },
+];
 ---
 
 <Layout title="Rob Smith — Biography">
@@ -132,10 +140,16 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
                 />
               ))}
               {chapter.joinSlot && (
-                <div class="roster-tile roster-tile--join">
+                <button
+                  type="button"
+                  class="roster-tile roster-tile--join"
+                  id="evidenceOpen"
+                  aria-haspopup="dialog"
+                  aria-controls="evidenceModal"
+                >
                   <img src={chapter.joinSlot.src} alt={chapter.joinSlot.alt} />
                   <span class="join-badge" aria-hidden="true">?</span>
-                </div>
+                </button>
               )}
             </div>
           ) : chapter.image ? (
@@ -162,6 +176,29 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
         </div>
       </div>
     ))}
+  </div>
+
+  <div id="evidenceModal" class="evidence-modal" hidden>
+    <div class="evidence-backdrop" data-close></div>
+    <div class="evidence-panel" role="dialog" aria-modal="true" aria-label="Evidence Rob might already be SA material">
+      <button type="button" class="evidence-close" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="5" y1="5" x2="19" y2="19" />
+          <line x1="19" y1="5" x2="5" y2="19" />
+        </svg>
+      </button>
+      <h2 class="evidence-heading">Receipts</h2>
+      <div class="evidence-window">
+        <div class="evidence-track">
+          <div class="evidence-list">
+            {evidence.map((e) => <img class="evidence-img" src={e.src} alt={e.alt} />)}
+          </div>
+          <div class="evidence-list" aria-hidden="true">
+            {evidence.map((e) => <img class="evidence-img" src={e.src} alt="" />)}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   </main>
   <Footer />
@@ -237,6 +274,37 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
       window.setInterval(swapRandomTile, 3500);
     }, 2500);
   }
+</script>
+
+<script>
+  const evidenceOpen = document.getElementById('evidenceOpen');
+  const evidenceModal = document.getElementById('evidenceModal');
+
+  function openEvidence() {
+    if (!evidenceModal) return;
+    evidenceModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    evidenceModal.querySelector('.evidence-close')?.focus();
+  }
+
+  function closeEvidence() {
+    if (!evidenceModal) return;
+    evidenceModal.hidden = true;
+    document.body.style.overflow = '';
+    evidenceOpen?.focus();
+  }
+
+  evidenceOpen?.addEventListener('click', openEvidence);
+
+  evidenceModal?.querySelectorAll('[data-close]').forEach((el) => {
+    el.addEventListener('click', closeEvidence);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && evidenceModal && !evidenceModal.hidden) {
+      closeEvidence();
+    }
+  });
 </script>
 
 <style>
@@ -389,6 +457,15 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     border: 3px dashed var(--color-accent);
     background: var(--color-accent-soft);
     padding: 4px;
+    cursor: pointer;
+    font: inherit;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .roster-tile--join:hover,
+  .roster-tile--join:focus-visible {
+    background: var(--color-accent-soft);
+    transform: scale(1.03);
   }
 
   .roster-tile--join img {
@@ -464,7 +541,148 @@ const rosterExtras = teamChapter?.rosterExtras ?? [];
     margin-bottom: 0;
   }
 
+  .evidence-modal[hidden] {
+    display: none;
+  }
+
+  .evidence-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .evidence-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .evidence-panel {
+    position: relative;
+    width: 100%;
+    max-width: 70rem;
+    max-height: 85vh;
+    background: var(--color-bg);
+    border-radius: 16px;
+    padding: 2rem 1.5rem 1.5rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .evidence-heading {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 0 1rem;
+  }
+
+  .evidence-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .evidence-window {
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--color-bg-alt);
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .evidence-track {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    height: 7.5rem;
+    animation: evidence-scroll-x 40s linear infinite;
+  }
+
+  .evidence-panel:hover .evidence-track {
+    animation-play-state: paused;
+  }
+
+  .evidence-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .evidence-img {
+    display: block;
+    width: auto;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes evidence-scroll-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes evidence-scroll-y {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .evidence-track {
+      animation: none;
+    }
+
+    .evidence-window {
+      overflow: auto;
+    }
+  }
+
   @media (max-width: 700px) {
+    .evidence-window {
+      height: 55vh;
+      mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+    }
+
+    .evidence-track {
+      flex-direction: column;
+      width: 100%;
+      height: max-content;
+      animation-name: evidence-scroll-y;
+      animation-duration: 11s;
+    }
+
+    .evidence-list {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .evidence-img {
+      width: 100%;
+      height: auto;
+    }
+
     .hero {
       height: 50vh;
       min-height: 320px;
